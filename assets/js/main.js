@@ -1,9 +1,9 @@
 /**
-* Template Name: Medicio
-* Template URL: https://bootstrapmade.com/medicio-free-bootstrap-theme/
-* Updated: Aug 07 2024 with Bootstrap v5.3.3
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
+* Template Name: VASTGH
+* Template URL: 
+* Updated: 
+* Author: Teckisoft
+* License: 
 */
 
 (function() {
@@ -211,43 +211,51 @@
   function initHeroTitleMotion() {
     const heroTitles = document.querySelectorAll('.hero h2');
     let isMobile = window.innerWidth <= 768;
+    let animationInProgress = false;
     
     function updateTitleMotion() {
+      if (animationInProgress) return;
+      
       heroTitles.forEach((title, index) => {
         // Add motion class for mobile devices
         if (isMobile) {
+          // Prevent multiple animations on the same element
+          if (title.classList.contains('animating')) return;
+          title.classList.add('animating');
+          
           title.classList.add('hero-title-mobile');
           
-          // Create typing effect
-          const originalText = title.textContent;
+          // Store original text and clear content
+          const originalText = title.textContent.trim();
           title.textContent = '';
-          let charIndex = 0;
-          
-          function typeText() {
-            if (charIndex < originalText.length) {
-              title.textContent += originalText.charAt(charIndex);
-              charIndex++;
-              setTimeout(typeText, 100);
-            }
-          }
-          
-          // Start typing effect with delay based on carousel item
-          setTimeout(() => {
-            typeText();
-          }, index * 500);
-          
-          // Add fade-in animation
           title.style.opacity = '0';
           title.style.transform = 'translateY(20px)';
           title.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
           
+          // Start fade-in animation
           setTimeout(() => {
             title.style.opacity = '1';
             title.style.transform = 'translateY(0)';
+            
+            // Create typing effect after fade-in
+            let charIndex = 0;
+            function typeText() {
+              if (charIndex < originalText.length) {
+                title.textContent += originalText.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeText, 100);
+              } else {
+                title.classList.remove('animating');
+              }
+            }
+            
+            // Start typing effect
+            typeText();
           }, 200);
           
         } else {
           title.classList.remove('hero-title-mobile');
+          title.classList.remove('animating');
           title.style.opacity = '';
           title.style.transform = '';
           title.style.transition = '';
@@ -288,10 +296,18 @@
     if (!siteName) return;
 
     let isMobile = window.innerWidth <= 768;
-    const originalText = siteName.textContent;
+    const originalText = siteName.textContent.trim();
+    let animationInProgress = false;
     
     function applySiteNameAnimation() {
+      if (animationInProgress) return;
+      
       if (isMobile) {
+        // Prevent multiple animations
+        if (siteName.classList.contains('animating')) return;
+        siteName.classList.add('animating');
+        animationInProgress = true;
+        
         // Add animation class for mobile
         siteName.classList.add('sitename-animated');
         
@@ -301,29 +317,36 @@
         siteName.style.transform = 'translateX(-20px)';
         siteName.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
         
-        let charIndex = 0;
-        function typeSiteName() {
-          if (charIndex < originalText.length) {
-            siteName.textContent += originalText.charAt(charIndex);
-            charIndex++;
-            setTimeout(typeSiteName, 80);
-          }
-        }
-        
         // Start animation after short delay
         setTimeout(() => {
           siteName.style.opacity = '1';
           siteName.style.transform = 'translateX(0)';
+          
+          let charIndex = 0;
+          function typeSiteName() {
+            if (charIndex < originalText.length) {
+              siteName.textContent += originalText.charAt(charIndex);
+              charIndex++;
+              setTimeout(typeSiteName, 80);
+            } else {
+              siteName.classList.remove('animating');
+              animationInProgress = false;
+            }
+          }
+          
+          // Start typing effect
           typeSiteName();
         }, 500);
         
       } else {
         // Reset for desktop
         siteName.classList.remove('sitename-animated');
+        siteName.classList.remove('animating');
         siteName.textContent = originalText;
         siteName.style.opacity = '';
         siteName.style.transform = '';
         siteName.style.transition = '';
+        animationInProgress = false;
       }
     }
     
