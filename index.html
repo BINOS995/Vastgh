@@ -187,8 +187,14 @@
         <div class="row justify-content-center">
           <div class="col-lg-10" data-aos="fade-up" data-aos-delay="100">
             <div class="announcement-card">
-              <div class="announcement-image">
-                <img src="thumbnails/VAST Ghana policy brief on strenthening.png" alt="VAST Ghana Policy Brief on Strengthening Ghana's Fiscal and Public Health Future" class="img-fluid">
+              <div class="announcement-image book-container">
+                <div class="book-3d">
+                  <div class="book-cover">
+                    <img src="thumbnails/VAST Ghana policy brief on strenthening.png" alt="VAST Ghana Policy Brief on Strengthening Ghana's Fiscal and Public Health Future" class="img-fluid">
+                  </div>
+                  <div class="book-spine"></div>
+                  <div class="book-pages"></div>
+                </div>
               </div>
               <div class="announcement-content">
                 <div class="announcement-badge">New Publication</div>
@@ -673,6 +679,160 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <!-- Book Animation JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const book3D = document.querySelector('.book-3d');
+      const bookContainer = document.querySelector('.book-container');
+      
+      if (book3D && bookContainer) {
+        // Enhanced mouse tracking for 3D rotation
+        bookContainer.addEventListener('mousemove', function(e) {
+          const rect = bookContainer.getBoundingClientRect();
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          
+          const mouseX = e.clientX - rect.left - centerX;
+          const mouseY = e.clientY - rect.top - centerY;
+          
+          // Calculate rotation based on mouse position (enhanced for larger size)
+          const rotateY = (mouseX / centerX) * 25; // Max 25 degrees rotation
+          const rotateX = -(mouseY / centerY) * 15; // Max 15 degrees rotation
+          
+          // Apply 3D transformation with enhanced depth
+          book3D.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg) translateZ(50px)`;
+          book3D.style.transition = 'none';
+        });
+        
+        // Reset on mouse leave
+        bookContainer.addEventListener('mouseleave', function() {
+          book3D.style.transform = '';
+          book3D.style.transition = 'all 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
+        });
+        
+        // Click animation - book opening effect (enhanced for larger size)
+        book3D.addEventListener('click', function() {
+          this.style.transform = 'rotateY(-50deg) rotateX(15deg) translateZ(80px) scale(1.15)';
+          this.style.transition = 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)';
+          
+          // Reset after animation
+          setTimeout(() => {
+            this.style.transform = '';
+          }, 800);
+        });
+        
+        // Parallax effect on scroll
+        window.addEventListener('scroll', function() {
+          const scrolled = window.pageYOffset;
+          const rate = scrolled * -0.5;
+          
+          if (bookContainer.getBoundingClientRect().top < window.innerHeight && 
+              bookContainer.getBoundingClientRect().bottom > 0) {
+            book3D.style.transform = `translateY(${rate}px) rotateY(0deg)`;
+          }
+        });
+        
+        // Add sparkle effects on hover
+        bookContainer.addEventListener('mouseenter', function() {
+          createSparkles(this);
+        });
+        
+        // Sparkle creation function
+        function createSparkles(container) {
+          const sparkleCount = 6;
+          
+          for (let i = 0; i < sparkleCount; i++) {
+            setTimeout(() => {
+              const sparkle = document.createElement('div');
+              sparkle.className = 'sparkle';
+              sparkle.style.cssText = `
+                position: absolute;
+                width: 4px;
+                height: 4px;
+                background: #fff;
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 10;
+                left: ${Math.random() * 100}%;
+                top: ${Math.random() * 100}%;
+                animation: sparkleAnimation 1s ease-out forwards;
+              `;
+              
+              container.appendChild(sparkle);
+              
+              // Remove sparkle after animation
+              setTimeout(() => {
+                if (sparkle.parentNode) {
+                  sparkle.parentNode.removeChild(sparkle);
+                }
+              }, 1000);
+            }, i * 100);
+          }
+        }
+        
+        // Add sparkle animation to CSS
+        const sparkleStyle = document.createElement('style');
+        sparkleStyle.textContent = `
+          @keyframes sparkleAnimation {
+            0% {
+              transform: scale(0) rotate(0deg);
+              opacity: 1;
+            }
+            50% {
+              transform: scale(1.5) rotate(180deg);
+              opacity: 0.8;
+            }
+            100% {
+              transform: scale(0) rotate(360deg);
+              opacity: 0;
+            }
+          }
+        `;
+        document.head.appendChild(sparkleStyle);
+        
+        // Add tilt effect based on device orientation (mobile)
+        if (window.DeviceOrientationEvent) {
+          window.addEventListener('deviceorientation', function(e) {
+            const tilt = e.gamma; // Left-to-right tilt in degrees
+            if (tilt && Math.abs(tilt) < 30) { // Only respond to small tilts
+              book3D.style.transform = `rotateY(${tilt * 0.5}deg) rotateX(${e.beta * 0.2}deg)`;
+            }
+          });
+        }
+        
+        // Add keyboard interaction
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            if (bookContainer.matches(':hover')) {
+              book3D.click();
+            }
+          }
+        });
+      }
+      
+      // Add intersection observer for scroll-triggered animations
+      const observerOptions = {
+        threshold: 0.3,
+        rootMargin: '0px 0px -100px 0px'
+      };
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.animationPlayState = 'running';
+          } else {
+            entry.target.style.animationPlayState = 'paused';
+          }
+        });
+      }, observerOptions);
+      
+      // Observe the book container
+      if (bookContainer) {
+        observer.observe(bookContainer);
+      }
+    });
+  </script>
 
 </body>
 
