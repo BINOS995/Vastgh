@@ -200,6 +200,76 @@
     margin-bottom: 1rem;
 }
 
+/* Publication Thumbnail Styles - Modern Compact Design */
+.publication-thumbnail {
+    margin-bottom: 1rem;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.publication-thumbnail:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.publication-thumbnail-img {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    display: block;
+    transition: transform 0.4s ease;
+    padding: 12px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 8px;
+}
+
+.publication-thumbnail:hover .publication-thumbnail-img {
+    transform: scale(1.08);
+}
+
+/* Featured publication card styling */
+.publication-card:has(.publication-thumbnail) {
+    border: 1px solid rgba(40, 167, 69, 0.2);
+    background: linear-gradient(135deg, #ffffff 0%, #f8fff9 100%);
+    box-shadow: 0 8px 25px rgba(40, 167, 69, 0.1);
+    transition: all 0.3s ease;
+}
+
+.publication-card:has(.publication-thumbnail):hover {
+    box-shadow: 0 12px 35px rgba(40, 167, 69, 0.15);
+    transform: translateY(-2px);
+}
+
+.publication-card:has(.publication-thumbnail) .card-date {
+    background: linear-gradient(135deg, var(--vast-primary), #20c997);
+    color: white;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Modern badge for featured publication */
+.publication-card:has(.publication-thumbnail)::before {
+    content: "FEATURED";
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: linear-gradient(135deg, var(--vast-primary), var(--vast-secondary));
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
 /* Modern Webinar Styles */
 .webinar-card {
     background: #ffffff;
@@ -542,9 +612,24 @@
 }
 
 .publication-thumbnail-container {
-    border-radius: 8px;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    margin-bottom: 1.5rem;
+}
+
+.publication-thumbnail-container img {
+    width: 100%;
+    height: auto;
+    max-height: 350px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    padding: 15px;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .publication-abstract h3,
@@ -644,6 +729,30 @@
         width: 100%;
         text-align: center;
     }
+    
+    /* Mobile thumbnail adjustments */
+    .publication-thumbnail-img {
+        height: 180px;
+        padding: 10px;
+    }
+    
+    /* Publication details page thumbnail adjustments */
+    .publication-thumbnail-container {
+        padding: 15px;
+        margin-bottom: 1rem;
+    }
+    
+    .publication-thumbnail-container img {
+        max-height: 280px;
+        padding: 12px;
+    }
+    
+    .publication-card:has(.publication-thumbnail)::before {
+        font-size: 0.7rem;
+        padding: 3px 8px;
+        top: 8px;
+        right: 8px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -657,6 +766,33 @@
     
     .publication-title {
         font-size: 1.125rem;
+    }
+    
+    /* Small mobile thumbnail adjustments */
+    .publication-thumbnail {
+        margin-bottom: 0.75rem;
+    }
+    
+    .publication-thumbnail-img {
+        height: 160px;
+        padding: 8px;
+    }
+    
+    /* Publication details page small mobile adjustments */
+    .publication-thumbnail-container {
+        padding: 12px;
+    }
+    
+    .publication-thumbnail-container img {
+        max-height: 240px;
+        padding: 10px;
+    }
+    
+    .publication-card:has(.publication-thumbnail)::before {
+        font-size: 0.65rem;
+        padding: 2px 6px;
+        top: 6px;
+        right: 6px;
     }
 }
 

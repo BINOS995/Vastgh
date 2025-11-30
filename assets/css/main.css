@@ -206,6 +206,32 @@ h6 {
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
 }
 
+.announcement-image {
+  width: 200px;
+  height: 280px;
+  margin: 0 auto 25px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.announcement-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.announcement-image:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.announcement-image:hover img {
+  transform: scale(1.05);
+}
+
 .announcement-icon {
   width: 80px;
   height: 80px;
@@ -335,6 +361,12 @@ h6 {
     border-radius: 15px;
   }
   
+  .announcement-image {
+    width: 150px;
+    height: 210px;
+    margin-bottom: 20px;
+  }
+  
   .announcement-icon {
     width: 60px;
     height: 60px;
@@ -369,6 +401,11 @@ h6 {
 @media (max-width: 480px) {
   .announcement-card {
     padding: 25px 15px;
+  }
+  
+  .announcement-image {
+    width: 120px;
+    height: 168px;
   }
   
   .announcement-content h3 {

@@ -120,6 +120,58 @@ function loadPublicationDetails() {
         breadcrumbTitle.textContent = publication.title;
     }
     
+    // Update the thumbnail image (for publications that have thumbnails)
+    const thumbnailImg = document.getElementById('publication-thumbnail');
+    if (thumbnailImg) {
+        let thumbnailPath = '';
+        
+        // Map publication IDs to their thumbnail images
+        switch(publication.id) {
+            case 'pub001':
+                thumbnailPath = 'thumbnails/Tobacco Industry Interference in Tobacco Control and Public Health Policies in Ghana.png';
+                break;
+            case 'pub002':
+                thumbnailPath = 'thumbnails/Ghana 2014 Demographic and Health Survey .png';
+                break;
+            case 'pub003':
+                thumbnailPath = 'thumbnails/Economics of Tobacco Control in Ghana.png';
+                break;
+            case 'pub005':
+                thumbnailPath = 'thumbnails/Ghana Tobacco Industry Interference Index 2020 .png';
+                break;
+            case 'pub007':
+                thumbnailPath = 'thumbnails/Ghana National Alcohol Policy.png';
+                break;
+            case 'pub009':
+                thumbnailPath = 'thumbnails/Protecting Public Health - Tobacco Control Measures.png';
+                break;
+            case 'pub011':
+                thumbnailPath = 'thumbnails/VAST Ghana policy brief on strenthening.png';
+                break;
+            case 'pub004':
+                thumbnailPath = 'thumbnails/Ghana-Tobacco-Industry-Interference-Index-2021.png';
+                break;
+            case 'pub006':
+                thumbnailPath = 'thumbnails/Ghana Country Summary - Tobacco Index Report.png';
+                break;
+            case 'pub008':
+                thumbnailPath = 'thumbnails/Fiscal and public health impact of tobacco.png';
+                break;
+            case 'pub010':
+                thumbnailPath = 'thumbnails/Policy Brief - Novel Tobacco and Nicotine Products in Ghana.png';
+                break;
+        }
+        
+        if (thumbnailPath) {
+            thumbnailImg.src = thumbnailPath;
+            thumbnailImg.alt = publication.title;
+            thumbnailImg.style.display = 'block';
+        } else {
+            // Hide thumbnail if not available
+            thumbnailImg.style.display = 'none';
+        }
+    }
+    
     // Load related publications (same category)
     loadRelatedPublications(publication);
 }
@@ -187,6 +239,7 @@ function populateYearFilter() {
 
 // Render publications
 function renderPublications() {
+    console.log('renderPublications called with', filteredPublications.length, 'publications');
     const publicationsContainer = document.getElementById('publications-container');
     const publicationsList = document.getElementById('publications-list');
     
@@ -206,7 +259,62 @@ function renderPublications() {
             // Format the date display
             const displayDate = publication.date || publication.year;
             
+            // Add thumbnail for publications that have thumbnail images
+            let thumbnailHTML = '';
+            let thumbnailPath = '';
+            
+            // Map publication IDs to their thumbnail images
+            switch(publication.id) {
+                case 'pub001':
+                    thumbnailPath = 'thumbnails/Tobacco Industry Interference in Tobacco Control and Public Health Policies in Ghana.png';
+                    break;
+                case 'pub002':
+                    thumbnailPath = 'thumbnails/Ghana 2014 Demographic and Health Survey .png';
+                    break;
+                case 'pub003':
+                    thumbnailPath = 'thumbnails/Economics of Tobacco Control in Ghana.png';
+                    break;
+                case 'pub005':
+                    thumbnailPath = 'thumbnails/Ghana Tobacco Industry Interference Index 2020 .png';
+                    break;
+                case 'pub007':
+                    thumbnailPath = 'thumbnails/Ghana National Alcohol Policy.png';
+                    break;
+                case 'pub009':
+                    thumbnailPath = 'thumbnails/Protecting Public Health - Tobacco Control Measures.png';
+                    break;
+                case 'pub011':
+                    thumbnailPath = 'thumbnails/VAST Ghana policy brief on strenthening.png';
+                    break;
+                case 'pub004':
+                    thumbnailPath = 'thumbnails/Ghana-Tobacco-Industry-Interference-Index-2021.png';
+                    break;
+                case 'pub006':
+                    thumbnailPath = 'thumbnails/Ghana Country Summary - Tobacco Index Report.png';
+                    break;
+                case 'pub008':
+                    thumbnailPath = 'thumbnails/Fiscal and public health impact of tobacco.png';
+                    break;
+                case 'pub010':
+                    thumbnailPath = 'thumbnails/Policy Brief - Novel Tobacco and Nicotine Products in Ghana.png';
+                    break;
+            }
+            
+            if (thumbnailPath) {
+                console.log('Adding thumbnail for publication:', publication.title);
+                console.log('Publication ID:', publication.id);
+                thumbnailHTML = `
+                    <div class="publication-thumbnail">
+                        <img src="${thumbnailPath}" 
+                             alt="${publication.title}" 
+                             class="publication-thumbnail-img"
+                             loading="lazy">
+                    </div>
+                `;
+            }
+            
             publicationCard.innerHTML = `
+                ${thumbnailHTML}
                 <div class="card-date">${displayDate}</div>
                 <h3 class="publication-title">
                     <a href="publication-details.html?id=${publication.id}">${publication.title}</a>
@@ -239,8 +347,23 @@ function renderPublications() {
             // Format the date display
             const displayDate = publication.date || publication.year;
             
+            // Add thumbnail for the specific publication (right book)
+            let thumbnailHTML = '';
+            if (publication.id === 'pub001') {
+                console.log('Adding thumbnail for publication (old list):', publication.title);
+                thumbnailHTML = `
+                    <div class="publication-thumbnail">
+                        <img src="thumbnails/Tobacco Industry Interference in Tobacco Control and Public Health Policies in Ghana.png" 
+                             alt="${publication.title}" 
+                             class="publication-thumbnail-img"
+                             loading="lazy">
+                    </div>
+                `;
+            }
+            
             return `
                 <div class="publication-card">
+                    ${thumbnailHTML}
                     <div class="card-date">${displayDate}</div>
                     <h3 class="publication-title">
                         <a href="publication-details.html?id=${publication.id || ''}">${publication.title}</a>
